@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1 user-scalable=no, shrink-to-fit=no">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>modern calculator</title>
+	<link rel="stylesheet" href="style.css">
+	<link href="https://fonts.googleapis.com/css?family=Fjalla+One&display=swap" rel="stylesheet">
+	
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-70447982-5"></script>
+
+	<link rel='icon' type='image/x-icon' href='logo.png' />
+</head>
+
+<body>
+	<div class="toggle-container">
+        <label class="toggle-switch">
+            <input type="checkbox" id="toggle-mode" />
+            <span class="toggle-slider"></span>
+        </label>
+    </div>
+	<div class="container">
+		<h1><a style="text-decoration: none; color: #77f0f8; margin-left: 1.25rem;" href="" onclick="location.reload();">CALCULATOR</a>
+			<img id="historybutton" src="history.png">	</h1>&nbsp;&nbsp;
+
+
+
+
+			<!-- </h1 > -->
+		<div class="calculator">
+			<input type="text" name="screen" id="answer" readonly>
+			<table>
+				<tr>
+					<td><button>(</button></td>
+					<td><button>)</button></td>
+					<!-- <td><button style="background-color: #f01600; font-weight: bold; color: #ecf0f1;" onclick="deleteLastEntry()">C</button></td> -->
+					<td>
+						<div class="row">
+							<div class="col">
+							  <button style="background-color: #f0dc00; font-weight: bold; color: #000000; width: 9.5vw;" onclick="clearAll()">C</button>
+							</div>
+							<div class="col">
+							  <button style="background-color: #f0dc00; font-weight: bold; color: #000000;width: 9.5vw;" onclick="deleteLastEntry()">CE</button>
+							</div>
+						  </div>
+
+						</td>
+						
+
+<!-- <td colspan="2"><button style="background-color: #f01600; font-weight: bold; color: #ecf0f1;" onclick="deleteLastEntry()">C</button></td>					
+</td> -->
+					 
+					<td><button>%</button></td>
+				</tr>
+				<tr>
+					<td><button>7</button></td>
+					<td><button>8</button></td>
+					<td><button>9</button></td>
+					<td><button>X</button></td>
+				</tr>
+				<tr>
+					<td><button>4</button></td>
+					<td><button>5</button></td>
+					<td><button>6</button></td>
+					<td><button>-</button></td>
+				</tr>
+				<tr>
+					<td><button>1</button></td>
+					<td><button>2</button></td>
+					<td><button>3</button></td>
+					<td><button>+</button></td>
+				</tr>
+				<tr>
+					<td><button>0</button></td>
+					<td><button style="font-weight: bold;">.</button></td>
+					<td><button>/</button></td>
+					<td><button id="save-value" style="background-color: #0da132; font-weight: bold; color: #ecf0f1;">=</button></td>
+				</tr>
+			</table>
+			<hr style="max-width: 50vw;">
+			<div style="font-size:1rem; display: flex; align-items: center; justify-content: center;">Made with <img style="margin: 0.15rem; width:30px;" src="heart.png">by<a style="text-decoration: none; color: #f1c40f; margin-left: 0.25rem;"
+                target="_blank" href="https://harsh98trivedi.github.io">Boobalan Ravichandran</a></div>
+		</div>
+	</div>
+	<div id="bar1" class = "bars"></div>
+	<div id="bar2" class = "bars"></div>
+	<div id="history">
+	</div>
+    <div id="turn">
+    PLEASE TURN YOUR DEVICE
+	</div> 
+</body>
+<script src="hist.js"></script>
+<script src="calc.js"></script>
+
+<script>
+
+        const toggleMode = document.getElementById('toggle-mode');
+        const container = document.querySelector('.container');
+        const calculatorInput = document.getElementById('answer'); 
+
+        toggleMode.addEventListener('change', function() {
+            container.classList.toggle('dark-mode');
+        });
+        
+	toggleMode.addEventListener('change', function() {
+		container.classList.toggle('dark-mode');
+	});
+
+        document.addEventListener('input', function (event) {
+            handleInput(event.target.value);
+        });
+
+        function handleInput(value) {
+            if (/^([0-9\.\+\-\*\/%])*$/.test(value)) {
+                calculatorInput.value = value;
+            } else {
+                calculatorInput.value = calculate(value); // You might want to implement your own calculation logic here
+            }
+        }
+
+        function calculate(expression) {
+            try {
+                return eval(expression);
+            } catch (error) {
+                return 'Error';
+            }
+        }
+    
+        historybutton.addEventListener('click', showHistory);
+
+
+    const saveValueButton = document.getElementById('save-value'); // Get the save value button
+
+    toggleMode.addEventListener('change', function () {
+        container.classList.toggle('dark-mode');
+    });
+
+    // ... Your other event listeners ...
+
+    saveValueButton.addEventListener('click', function () {
+        // Get the value from the calculator input
+        const inputValue = calculatorInput.value;
+
+        // Save the value to local storage
+        let savedValues = JSON.parse(localStorage.getItem("savedValues")) || [];
+        savedValues.push(inputValue);
+        localStorage.setItem("savedValues", JSON.stringify(savedValues));
+
+        // Clear the calculator input
+        calculatorInput.value = '';
+
+        // Refresh the history section to show the updated values
+        showHistory();
+    });
+
+    // ... Your other functions ...
+
+    // Function to display the history in the history section
+    function showHistory() {
+        let savedValues = JSON.parse(localStorage.getItem("savedValues")) || [];
+        // ... Rest of your code to display history ...
+    }
+
+
+
+
+// Add an event listener to the beforeunload event
+window.addEventListener('beforeunload', function () {
+    // Clear the savedValues from local storage
+    localStorage.removeItem('savedValues');
+});
+
+</script>
+</html>
